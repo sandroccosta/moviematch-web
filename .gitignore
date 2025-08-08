@@ -28,3 +28,15 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+ Pasta de dependências (gigante e desnecessária no repositório)
+/node_modules
+
+# Pasta com os arquivos de build (gerados automaticamente)
+/dist
+/dist-ssr
+
+# Arquivos de ambiente local (NÃO DEVEM IR PARA O GITHUB)
+.env
+.env.*
+!/.env.example
