@@ -11,9 +11,23 @@ import TheHeader from './components/TheHeader.vue'
   </main>
 </template>
 
+
 <style scoped>
-/* O erro que eu cometi estava aqui. O correto é 'main {' e não 'main> {' */
 main {
   padding: 2rem;
+}
+</style>
+
+<style>
+body {
+  background-color: #141414; /* Tom de preto da Netflix */
+  color: #fff;
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 0;
+}
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 </style>

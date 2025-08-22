@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, defineEmits } from 'vue'
 
 const props = defineProps({
   movie: {
@@ -8,23 +8,21 @@ const props = defineProps({
   }
 })
 
-// Alguns filmes na OMDb não têm pôster e retornam "N/A".
-// Esta função garante que, se não houver pôster, exibimos uma imagem genérica.
+const emit = defineEmits(['view-details']);
+
 const posterSrc = computed(() => {
+  // A CORREÇÃO ESTÁ AQUI: a string deve ser 'N/A'
   if (props.movie.poster && props.movie.poster !== 'N/A') {
     return props.movie.poster
   }
-  // URL de uma imagem genérica
-  return 'https://via.placeholder.com/300x450.png?text=Imagem+N%C3%A3o+Dispon%C3%ADvel'
+  return 'https://via.placeholder.com/200x300.png?text=Poster+Indispon%C3%ADvel'
 })
 </script>
 
 <template>
-  <div class="movie-card">
-    <div class="poster-wrapper">
-      <img :src="posterSrc" :alt="`Pôster de ${movie.titulo}`" />
-    </div>
-    <div class="info">
+  <div class="movie-card" @click="emit('view-details', movie)">
+    <img :src="posterSrc" :alt="`Pôster de ${movie.titulo}`" class="poster" />
+    <div class="info-overlay">
       <h3 class="title">{{ movie.titulo }}</h3>
       <p class="year">{{ movie.ano }}</p>
     </div>
@@ -33,43 +31,61 @@ const posterSrc = computed(() => {
 
 <style scoped>
 .movie-card {
+  position: relative;
+  min-width: 200px;
   width: 200px;
-  background-color: #1e1e1e;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.movie-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-}
-
-.poster-wrapper img {
-  width: 100%;
   height: 300px;
-  object-fit: cover; /* Garante que a imagem cubra o espaço sem distorcer */
-  display: block;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, z-index 0.3s ease;
+  cursor: pointer;
+  background-color: #2b2b2b;
 }
 
-.info {
+.poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0));
   padding: 1rem;
+  padding-top: 2rem;
+  opacity: 0;
+  transform: translateY(20%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .title {
-  color: #e0e0e0;
-  font-size: 1rem;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
   margin: 0 0 0.25rem 0;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* Adiciona "..." se o título for muito longo */
+  text-overflow: ellipsis;
 }
 
 .year {
   color: #a0a0a0;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   margin: 0;
+}
+
+/* Efeito Hover */
+.movie-card:hover {
+  transform: scale(1.15);
+  z-index: 10;
+}
+
+.movie-card:hover .info-overlay {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
