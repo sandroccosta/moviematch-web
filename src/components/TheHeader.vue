@@ -13,7 +13,8 @@ const handleLogout = () => {
 
 <template>
   <header>
-    <h1>MovieMatch</h1>
+    <img src="@/assets/logo-moviematch.png" alt="MovieMatch Logo" class="logo" />
+
     <nav v-if="authStore.token">
       <button @click="handleLogout">Sair</button>
     </nav>
@@ -27,11 +28,17 @@ header {
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; /* Garante que o logo e o botão fiquem alinhados verticalmente */
+}
+
+/* Novo estilo para o logo */
+.logo {
+  height: 130px; /* Você pode ajustar o tamanho do logo aqui */
+  width: auto;
 }
 
 button {
-  background-color: #e63946; /* Um vermelho para destaque */
+  background-color: #e50914; /* Cor Netflix */
   border: none;
   color: white;
   padding: 0.5rem 1rem;
@@ -41,6 +48,6 @@ button {
 }
 
 button:hover {
-  background-color: #d62828;
+  background-color: #f6121d;
 }
 </style>
